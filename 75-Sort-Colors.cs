@@ -1,11 +1,12 @@
 public class Solution {
     public void SortColors(int[] nums) {
 
+        var temp = 0;
         void swap (int i , int j)
         {
             if(i == j)
                 return;
-            var temp = nums[i];
+            temp = nums[i];
             nums[i] = nums[j];
             nums[j] = temp;
         }
