@@ -4,39 +4,35 @@ public class Solution {
             return -1;
 
         var maxDays = bloomDay.Max();
-        var minDays = bloomDay.Min();
-        var mid = 0;
+        var minDays = 1;
+        var res = -1;
 
-        bool canMakeBouquets = false;
-        bool isEqualChecked = false;
-        while(maxDays >= minDays && !isEqualChecked)
+        while(maxDays >= minDays)
         {
-            if(minDays == maxDays)
-                isEqualChecked = true;
-            mid = (int) (maxDays+minDays)/2;
+            var mid = (maxDays+minDays)/2;
             if(CanMakeBouquets(mid)){
-                maxDays = mid;
-                canMakeBouquets = true;
+                res = mid;
+                maxDays = mid - 1;
             }
             else
                 minDays = mid + 1;
         }
-        return canMakeBouquets ? minDays : -1;
+        return res;
 
         bool CanMakeBouquets(int days)
         {
             var res = 0;
             var counter = 0;
-            foreach(var day in bloomDay)
+            for(int i = 0 ; i < bloomDay.Length ; i++)
             {
-                if(days >= day)
+                if(days >= bloomDay[i])
                     counter++;
                 else{
-                    res += (int) counter/k;
+                    res += counter/k;
                     counter = 0;
                 }
             }
-            res += (int) counter/k;
+            res += counter/k;
             return res >= m;
         }
     }
