@@ -1,29 +1,22 @@
 public class Solution {
-    public int LengthOfLongestSubstring(string s) {
-
-        if(s == "" ) 
-            return 0;
-
-        if( s.Length == 1)
-            return 1;
+        public int LengthOfLongestSubstring(string s) {
+        var visited = new HashSet<char>();
+        var max = 0;
+        var startIndex = 0;
         
-        var Str = string.Empty;
-        var longestLen = 0;
-
-        for(int i = 0 ; i < s.Length ; i++ )
+        for(int i = 0 ; i < s.Length ; i++)
         {
-            var charIndex = Str.IndexOf(s[i]);
-            if(charIndex == -1){
-              Str += s[i];
-              if(i == s.Length -1)
-                 longestLen = Str.Length > longestLen ? Str.Length : longestLen;
+            if(visited.Contains(s[i]))
+            {
+                while(visited.Any() && visited.Contains(s[i]))
+                {
+                    visited.Remove(s[startIndex]);
+                    startIndex++;
+                }
             }
-            else{
-              longestLen = Str.Length > longestLen ? Str.Length : longestLen;
-              Str = Str.Substring(charIndex+1,Str.Length-charIndex-1)+s[i];
-            }
+            visited.Add(s[i]);
+            max = Math.Max(max,visited.Count);
         }
-
-        return longestLen;
+        return max;
     }
 }
