@@ -1,24 +1,14 @@
 public class Solution {
     public int EvalRPN(string[] tokens) {
-         var stack = new Stack<int>();
-        int sum = 0; 
+        var stack = new Stack<int>();
         foreach(var c in tokens)
         {
-            sum = int.MinValue;
             if(IsOperation(c))
-            {
-                if(stack.Any())
-                {
-                    sum = Apply(c,stack.Pop(),stack.Pop());
-                    stack.Push(sum);
-                }
-            }
-            else{
-                sum = int.Parse(c);
-                stack.Push(sum);
-            }
+                stack.Push(Apply(c,stack.Pop(),stack.Pop()));
+            else
+                stack.Push(int.Parse(c));
         }
-        return sum;
+        return stack.Pop();
     }
 
     public bool IsOperation(string str) 
@@ -33,7 +23,6 @@ public class Solution {
             case \-\:
                 return num2-num1;
             case \/\:
-                if(num1 == 0) return 0;
                 return num2/num1;
             case \*\:
                 return num1*num2;
