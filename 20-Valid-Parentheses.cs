@@ -1,6 +1,6 @@
 public class Solution {
     public bool IsValid(string s) {
-                var dict = new Dictionary<char,char>(){
+        var dict = new Dictionary<char,char>(){
             {'(',')'},
             {'{','}'},
             {'[',']'}
@@ -11,19 +11,8 @@ public class Solution {
         {
             if(dict.ContainsKey(c))
                 stack.Push(c);
-            else
-            {
-                if(stack.Any())
-                {
-                    var item = stack.Peek();
-                    if(dict.ContainsKey(item) && dict[item] == c)
-                    {
-                        stack.Pop();
-                        continue;
-                    }
-                }
+            else if(!stack.Any() || dict[stack.Pop()] != c)
                 return false;
-            }
         }
         return !stack.Any();
     }
