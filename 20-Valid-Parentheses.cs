@@ -1,36 +1,30 @@
 public class Solution {
     public bool IsValid(string s) {
-        if(s.Length%2 == 1 || string.IsNullOrWhiteSpace(s))
-            return false;
-            
-        var adj = new Dictionary<char,char>() 
-        {
-            {'[',']'},
+                var dict = new Dictionary<char,char>(){
+            {'(',')'},
             {'{','}'},
-            {'(',')'}
+            {'[',']'}
         };
-        
-        var stk = new Stack<char>();
-        
-        for(int i=0; i < s.Length; i++)
+
+        var stack = new Stack<char>();
+        foreach(var c in s)
         {
-            if(stk.Count == 0){
-                if(!adj.ContainsKey(s[i]))
-                    return false;
-                stk.Push(s[i]);
-                continue;
-            }
-                
-            var item = stk.Peek();    
-            if(adj[item] != s[i]){
-                if(!adj.ContainsKey(s[i]))
-                    return false;
-                stk.Push(s[i]);
-            }
+            if(dict.ContainsKey(c))
+                stack.Push(c);
             else
-                stk.Pop();         
+            {
+                if(stack.Any())
+                {
+                    var item = stack.Peek();
+                    if(dict.ContainsKey(item) && dict[item] == c)
+                    {
+                        stack.Pop();
+                        continue;
+                    }
+                }
+                return false;
+            }
         }
-        
-        return stk.Count == 0;
+        return !stack.Any();
     }
 }
